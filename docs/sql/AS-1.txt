@@ -1,0 +1,364 @@
+AS-1
+Define DBMS, SQL, DATABASE.
+DBMS:   This is software that uses a database to store, modify, and extract information. Examples include MySQL, PostgreSQL, and Microsoft SQL Server
+
+SQL:  This is the programming language used to manage and manipulate databases
+
+database: it is used to store huge amount of data in an organized way and accessing in an efficient way
+
+
+SQL TYPES :
+
+                                           SQL Commands
+                                               |
+--------------------------------------------------------------------------------------------------------------
+|                                |                                |                             |                                     |
+DDL                 DML                              DCL                        TCL 			  DQL
+||                                |                                |                             |					|
+CREATE                SELECT                     GRANT                COMMIT		select
+ALTER                  INSERT                     REVOKE               ROLLBACK
+DROP                   UPDATE                                                 SAVEPOINT
+TRUNCATE         DELETE                                                      		             
+
+
+Explain create & insert command
+
+CREATE: Create new database tables
+
+DELETE: Remove records from a table
+
+Create a DATABASE with a table and add 10 sample records of data.
+      
+
+ create table example(id int primary key,name text); insert into example values(1,"yedukondalu"),(2,"padmasri"),(3,"kusuma"),(4,"mounika"),(5,"vamsi"),(6,"sidhu"),(7,"vaneha"),(8,"praveen"),(9,"anime"),(10,"family_happines");
+Query OK, 0 rows affected (0.04 sec)
+
+Query OK, 10 rows affected (0.01 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> select * from example;
++----+-----------------+
+| id | name            |
++----+-----------------+
+|  1 | yedukondalu     |
+|  2 | padmasri        |
+|  3 | kusuma          |
+|  4 | mounika         |
+|  5 | vamsi           |
+|  6 | sidhu           |
+|  7 | vaneha          |
+|  8 | praveen         |
+|  9 | anime           |
+| 10 | family_happines |
++----+-----------------+
+10 rows in set (0.00 sec)
+
+_________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+AS-2
+_________________________________________________________________________________________________________________________________________________________________________________________________________________
+CREATE
+
+mysql> create table Students(student_id int primary,name varchar(100));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',name varchar(100))' at line 1
+mysql> create table Students(student_id int primary key,name varchar(100),email varc
+har(100), dob date, courses varchar(50));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc Students;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| student_id | int          | NO   | PRI | NULL    |       |
+| name       | varchar(100) | YES  |     | NULL    |       |
+| email      | varchar(100) | YES  |     | NULL    |       |
+| dob        | date         | YES  |     | NULL    |       |
+| courses    | varchar(50)  | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+mysql> create table courses (
+    -> course_id int primary key,course_name varchar(50),instructor varchar(100));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> desc courses;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| course_id   | int          | NO   | PRI | NULL    |       |
+| course_name | varchar(50)  | YES  |     | NULL    |       |
+| instructor  | varchar(100) | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ create table Payments ( payment_id int primary key, student_id int, amount decimal(10,2),payment_date date, foreign key (student_id) references Students(student_id));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc Payments;
++--------------+---------------+------+-----+---------+-------+
+| Field        | Type          | Null | Key | Default | Extra |
++--------------+---------------+------+-----+---------+-------+
+| payment_id   | int           | NO   | PRI | NULL    |       |
+| student_id   | int           | YES  | MUL | NULL    |       |
+| amount       | decimal(10,2) | YES  |     | NULL    |       |
+| payment_date | date          | YES  |     | NULL    |       |
++--------------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+_________________________________________________________________________________________________________________________________________________________________________________________________________________
+DML INSERT
+
+mysql> insert into students values (1,"vamsi","vamsikathi16@gmail.com","2003-09-17","AIDS"),
+    -> (2,"praveen","marellapraveen9@gmail.com","2003-08-24","AIDS"),
+    -> (3,"babji","jalagambabji@gmail.com","2003-07-08","CSE"),
+    -> (4,"vaneha","vaneha@gmail.com","2003-12-24","ECE"),
+    -> (5,"anime","anime16@gmail.com","1998-09-17","AIDS");
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from students;
++------------+---------+---------------------------+------------+---------+
+| student_id | name    | email                     | dob        | courses |
++------------+---------+---------------------------+------------+---------+
+|          1 | vamsi   | vamsikathi16@gmail.com    | 2003-09-17 | AIDS    |
+|          2 | praveen | marellapraveen9@gmail.com | 2003-08-24 | AIDS    |
+|          3 | babji   | jalagambabji@gmail.com    | 2003-07-08 | CSE     |
+|          4 | vaneha  | vaneha@gmail.com          | 2003-12-24 | ECE     |
+|          5 | anime   | anime16@gmail.com         | 1998-09-17 | AIDS    |
++------------+---------+---------------------------+------------+---------+
+5 rows in set (0.00 sec)
+
+
+mysql> insert into courses values
+    -> (1,"AIDS","veera_babu_sir"),
+    -> (2,"CSE","AARthi_RAJU_MAM"),
+    -> (3,"ECE","SIR");
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from courses;
++-----------+-------------+-----------------+
+| course_id | course_name | instructor      |
++-----------+-------------+-----------------+
+|         1 | AIDS        | veera_babu_sir  |
+|         2 | CSE         | AARthi_RAJU_MAM |
+|         3 | ECE         | SIR             |
++-----------+-------------+-----------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into payments values
+    -> (1,1,99.00,"2004-04-17"),
+    -> (2,2,100.00,"2003-04-17"),
+    -> (3,3,500.00,"2003-09-17");
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from payments;
++------------+------------+--------+--------------+
+| payment_id | student_id | amount | payment_date |
++------------+------------+--------+--------------+
+|          1 |          1 |  99.00 | 2004-04-17   |
+|          2 |          2 | 100.00 | 2003-04-17   |
+|          3 |          3 | 500.00 | 2003-09-17   |
++------------+------------+--------+--------------+
+3 rows in set (0.00 sec)
+_________________________________________________________________________________________________________________________________________________________________________________________________________________
+UPDATE AND DELETE :
+mysql> select *  from students;
++------------+---------+---------------------------+------------+---------+
+| student_id | name    | email                     | dob        | courses |
++------------+---------+---------------------------+------------+---------+
+|          1 | vamsi   | vamsikathi16@gmail.com    | 2003-09-17 | AIDS    |
+|          2 | praveen | marellapraveen9@gmail.com | 2003-08-24 | AIDS    |
+|          3 | babji   | jalagambabji@gmail.com    | 2003-07-08 | CSE     |
+|          4 | vaneha  | vaneha@gmail.com          | 2003-12-24 | ECE     |
+|          5 | anime   | anime16@gmail.com         | 1998-09-17 | AIDS    |
++------------+---------+---------------------------+------------+---------+
+5 rows in set (0.00 sec)
+mysql> update students
+    -> set courses="CSE"
+    -> where courses="ECE"
+    -> ;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select *  from students;
++------------+---------+---------------------------+------------+---------+
+| student_id | name    | email                     | dob        | courses |
++------------+---------+---------------------------+------------+---------+
+|          1 | vamsi   | vamsikathi16@gmail.com    | 2003-09-17 | AIDS    |
+|          2 | praveen | marellapraveen9@gmail.com | 2003-08-24 | AIDS    |
+|          3 | babji   | jalagambabji@gmail.com    | 2003-07-08 | CSE     |
+|          4 | vaneha  | vaneha@gmail.com          | 2003-12-24 | CSE     |
+|          5 | anime   | anime16@gmail.com         | 1998-09-17 | AIDS    |
++------------+---------+---------------------------+------------+---------+
+
+mysql> select * from courses;
++-----------+-------------+-----------------+
+| course_id | course_name | instructor      |
++-----------+-------------+-----------------+
+|         1 | AIDS        | veera_babu_sir  |
+|         2 | CSE         | AARthi_RAJU_MAM |
+|         3 | ECE         | SIR             |
++-----------+-------------+-----------------+
+3 rows in set (0.00 sec)
+
+mysql> update courses
+    -> set instructor = "VEERA_BABU_SIR"
+    -> where course_id=1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from courses;
++-----------+-------------+-----------------+
+| course_id | course_name | instructor      |
++-----------+-------------+-----------------+
+|         1 | AIDS        | VEERA_BABU_SIR  |
+|         2 | CSE         | AARthi_RAJU_MAM |
+|         3 | ECE         | SIR             |
++-----------+-------------+-----------------+
+3 rows in set (0.00 sec)
+
+mysql> select * From payments;
++------------+------------+--------+--------------+
+| payment_id | student_id | amount | payment_date |
++------------+------------+--------+--------------+
+|          1 |          1 |  99.00 | 2004-04-17   |
+|          2 |          2 | 100.00 | 2003-04-17   |
+|          3 |          3 | 500.00 | 2003-09-17   |
++------------+------------+--------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> update payments
+    -> set amount="500"
+    -> where amount>=100;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 2  Changed: 1  Warnings: 0
+
+mysql> select * from payments;
++------------+------------+--------+--------------+
+| payment_id | student_id | amount | payment_date |
++------------+------------+--------+--------------+
+|          1 |          1 |  99.00 | 2004-04-17   |
+|          2 |          2 | 500.00 | 2003-04-17   |
+|          3 |          3 | 500.00 | 2003-09-17   |
++------------+------------+--------+--------------+
+3 rows in set (0.00 sec)
+
+mysql>
+mysql> select * from payments;
++------------+------------+--------+--------------+
+| payment_id | student_id | amount | payment_date |
++------------+------------+--------+--------------+
+|          1 |          1 |  99.00 | 2004-04-17   |
+|          2 |          2 | 500.00 | 2003-04-17   |
+|          3 |          3 | 500.00 | 2003-09-17   |
++------------+------------+--------+--------------+
+3 rows in set (0.00 sec)
+
+
+DELETE
+
+
+mysql> select * from students;
++------------+---------+---------------------------+------------+---------+
+| student_id | name    | email                     | dob        | courses |
++------------+---------+---------------------------+------------+---------+
+|          1 | vamsi   | vamsikathi16@gmail.com    | 2003-09-17 | AIDS    |
+|          2 | praveen | marellapraveen9@gmail.com | 2003-08-24 | AIDS    |
+|          3 | babji   | jalagambabji@gmail.com    | 2003-07-08 | CSE     |
+|          4 | vaneha  | vaneha@gmail.com          | 2003-12-24 | CSE     |
+|          5 | anime   | anime16@gmail.com         | 1998-09-17 | AIDS    |
++------------+---------+---------------------------+------------+---------+
+5 rows in set (0.00 sec)
+
+mysql> delete from students where email = "anime16@gmail.com";
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from students;
++------------+---------+---------------------------+------------+---------+
+| student_id | name    | email                     | dob        | courses |
++------------+---------+---------------------------+------------+---------+
+|          1 | vamsi   | vamsikathi16@gmail.com    | 2003-09-17 | AIDS    |
+|          2 | praveen | marellapraveen9@gmail.com | 2003-08-24 | AIDS    |
+|          3 | babji   | jalagambabji@gmail.com    | 2003-07-08 | CSE     |
+|          4 | vaneha  | vaneha@gmail.com          | 2003-12-24 | CSE     |
++------------+---------+---------------------------+------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select * from payments;
++------------+------------+--------+--------------+
+| payment_id | student_id | amount | payment_date |
++------------+------------+--------+--------------+
+|          1 |          1 |  99.00 | 2004-04-17   |
+|          2 |          2 | 500.00 | 2003-04-17   |
+|          3 |          3 | 500.00 | 2003-09-17   |
++------------+------------+--------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> delete from payments where amount<100;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from payments;
++------------+------------+--------+--------------+
+| payment_id | student_id | amount | payment_date |
++------------+------------+--------+--------------+
+|          2 |          2 | 500.00 | 2003-04-17   |
+|          3 |          3 | 500.00 | 2003-09-17   |
++------------+------------+--------+--------------+
+2 rows in set (0.00 sec)
+
+_________________________________________________________________________________________________________________________________________________________________________________________________________________
+DQL :
+
+> select * from students;
++------------+---------+---------------------------+------------+---------+
+| student_id | name    | email                     | dob        | courses |
++------------+---------+---------------------------+------------+---------+
+|          1 | vamsi   | vamsikathi16@gmail.com    | 2003-09-17 | AIDS    |
+|          2 | praveen | marellapraveen9@gmail.com | 2003-08-24 | AIDS    |
+|          3 | babji   | jalagambabji@gmail.com    | 2003-07-08 | CSE     |
+|          4 | vaneha  | vaneha@gmail.com          | 2003-12-24 | CSE     |
++------------+---------+---------------------------+------------+---------+
+4 rows in set (0.00 sec)
+
+
+
+Select student names and emails who are enrolled in the "Data Science" course.
+
+mysql> select name, email from students where courses="AIDS";
++---------+---------------------------+
+| name    | email                     |
++---------+---------------------------+
+| vamsi   | vamsikathi16@gmail.com    |
+| praveen | marellapraveen9@gmail.com |
++---------+---------------------------+
+2 rows in set (0.00 sec)
+
+
+Select payment records where the payment amount is greater than 200.
+
+ select * from payments where amount > 200;
++------------+------------+--------+--------------+
+| payment_id | student_id | amount | payment_date |
++------------+------------+--------+--------------+
+|          2 |          2 | 500.00 | 2003-04-17   |
+|          3 |          3 | 500.00 | 2003-09-17   |
++------------+------------+--------+--------------+
+2 rows in set (0.00 sec)
+
+Select the distinct courses listed in the Students table.
+
+mysql> select distinct courses from students;
++---------+
+| courses |
++---------+
+| AIDS    |
+| CSE     |
++---------+
+2 rows in set (0.00 sec)
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
